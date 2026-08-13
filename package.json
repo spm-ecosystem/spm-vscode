@@ -8,8 +8,27 @@
   "engines": {
     "vscode": "^1.80.0"
   },
+  "main": "./src/extension.js",
+  "activationEvents": [
+    "onLanguage:veneer"
+  ],
   "categories": ["Other"],
   "contributes": {
+    "languages": [
+      {
+        "id": "veneer",
+        "aliases": ["Veneer Spec", "veneer"],
+        "extensions": [".vnr"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "veneer",
+        "scopeName": "source.vnr",
+        "path": "./syntaxes/veneer.tmLanguage.json"
+      }
+    ],
     "jsonValidation": [
       {
         "fileMatch": [

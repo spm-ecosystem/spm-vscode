@@ -1,0 +1,100 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Veneer Spec",
+  "scopeName": "source.vnr",
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#identifiers"
+    },
+    {
+      "include": "#braces"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.vnr",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.block.vnr",
+          "begin": "/\\*",
+          "end": "\\*/"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.raw.vnr",
+          "begin": "R\"[a-zA-Z0-9]*\\(",
+          "end": "\\)[a-zA-Z0-9]*\""
+        },
+        {
+          "name": "string.quoted.double.vnr",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.vnr",
+              "match": "\\\\."
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single.vnr",
+          "begin": "'",
+          "end": "'",
+          "patterns": [
+            {
+              "name": "constant.character.escape.vnr",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.vnr",
+          "match": "\\b(theme|variables|customStyles|class|extends|selector|action|reconstruct|preserve|child|bind|scope)\\b"
+        },
+        {
+          "name": "keyword.other.action-value.vnr",
+          "match": "\\b(replace|append|hide)\\b"
+        }
+      ]
+    },
+    "identifiers": {
+      "patterns": [
+        {
+          "name": "variable.other.property.vnr",
+          "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\s*:"
+        },
+        {
+          "name": "support.class.component.vnr",
+          "match": "->\\s*([a-zA-Z_][a-zA-Z0-9_]*)\\b"
+        }
+      ]
+    },
+    "braces": {
+      "patterns": [
+        {
+          "name": "punctuation.section.braces.vnr",
+          "match": "[{}]"
+        }
+      ]
+    }
+  }
+}
