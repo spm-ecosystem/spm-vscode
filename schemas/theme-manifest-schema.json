@@ -18108,8 +18108,7 @@
       "type": "string"
     },
     "minEngineVersion": {
-      "type": "string",
-      "description": "Minimum engine version required by the theme manifest."
+      "type": "string"
     },
     "theme": {
       "type": "object",
@@ -18118,12 +18117,16 @@
           "type": "string"
         },
         "author": {
-          "type": "string",
-          "description": "Author of the theme."
+          "type": "string"
         },
         "description": {
-          "type": "string",
-          "description": "Description of the theme."
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "cssVariables": {
           "type": "object",
@@ -18434,7 +18437,291 @@
       }
     },
     "reconstructs": {
-      "type": "array"
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "containerSelector": {
+            "type": "string"
+          },
+          "layoutComponent": {
+            "type": "string"
+          },
+          "urlPattern": {
+            "type": "string"
+          },
+          "propsMap": {
+            "type": "object"
+          },
+          "props": {
+            "type": "object"
+          },
+          "children": {
+            "type": "array"
+          },
+          "preserve": {
+            "type": "object"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "layoutComponent": {
+                  "const": "UiCommentListPage"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "props": {
+                  "$ref": "#/definitions/UiCommentListPageProps"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "layoutComponent": {
+                  "const": "UiDashboardPage"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "props": {
+                  "$ref": "#/definitions/UiDashboardPageProps"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "layoutComponent": {
+                  "const": "UiHeroLanding"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "props": {
+                  "$ref": "#/definitions/UiHeroLandingProps"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "layoutComponent": {
+                  "const": "UiImageCard"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "props": {
+                  "$ref": "#/definitions/UiImageCardProps"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "layoutComponent": {
+                  "const": "UiImageViewer"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "props": {
+                  "$ref": "#/definitions/UiImageViewerProps"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "layoutComponent": {
+                  "const": "UiModernGridPage"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "props": {
+                  "$ref": "#/definitions/UiModernGridPageProps"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "layoutComponent": {
+                  "const": "UiNavHeader"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "props": {
+                  "$ref": "#/definitions/UiNavHeaderProps"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "layoutComponent": {
+                  "const": "UiPaginationBar"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "props": {
+                  "$ref": "#/definitions/UiPaginationBarProps"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "layoutComponent": {
+                  "const": "UiPostDetails"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "props": {
+                  "$ref": "#/definitions/UiPostDetailsProps"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "layoutComponent": {
+                  "const": "UiScrollPanel"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "props": {
+                  "$ref": "#/definitions/UiScrollPanelProps"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "layoutComponent": {
+                  "const": "UiSearchBar"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "props": {
+                  "$ref": "#/definitions/UiSearchBarProps"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "layoutComponent": {
+                  "const": "UiSplitLayout"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "props": {
+                  "$ref": "#/definitions/UiSplitLayoutProps"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "layoutComponent": {
+                  "const": "UiStatsDashboard"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "props": {
+                  "$ref": "#/definitions/UiStatsDashboardProps"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "layoutComponent": {
+                  "const": "UiTableListPage"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "props": {
+                  "$ref": "#/definitions/UiTableListPageProps"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "layoutComponent": {
+                  "const": "UiTagBadge"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "props": {
+                  "$ref": "#/definitions/UiTagBadgeProps"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "layoutComponent": {
+                  "const": "UiToast"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "props": {
+                  "$ref": "#/definitions/UiToastProps"
+                }
+              }
+            }
+          }
+        ]
+      }
     }
   },
   "additionalProperties": true
