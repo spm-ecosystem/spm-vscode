@@ -1,19 +1,58 @@
-# SPM Theme Manifest IntelliSense
+# vscode-theme-manifest-intellisense
 
-This extension provides JSON schema validation and auto-completion for `manifest.json` theme files used by the Site Package Manager.
+The official VS Code developer tools extension for the Site Package Manager (SPM) layout ecosystem.
+
+---
+
+## Short Description
+An intelligent editor extension providing rich syntax highlighting, contextual autocomplete, and real-time compile linter diagnostics for Veneer Spec (`.vnr`) theme layout configuration files.
+
+---
+
+## Key Features
+
+1.  **Veneer Syntax Highlighting**: Real-time syntax coloring for keywords (`theme`, `reconstruct`, `child`, `bind`, etc.), CSS variables, comments, and C++ style raw string blocks `R"delim(...)delim"`.
+2.  **Contextual Autocomplete**:
+    *   Reconstruct arrow autocomplete (`->`) suggestions for registered React components.
+    *   Typing properties in reconstruct containers recommends available properties matching the React component's TypeScript props contract.
+    *   Child properties recommendation (e.g. inside `child items` block, it suggests item attributes like `imageUrl` and `linkUrl`).
+3.  **Real-Time Compile Diagnostics (Linter)**:
+    Saves document modifications in a background cache and executes `spm compile` silently. Compilation errors or Resolver failures are mapped back and highlighted as red squiggly error underlines on the exact line of the file.
+
+---
 
 ## Local Installation
 
-1. Open the workspace in VS Code.
-2. Open the command palette and run `Developer: Open Extensions Folder`.
-3. Open `vscode-theme-manifest-intellisense` as a new window or use `Run Extension` in a debug configuration if you have the VS Code Extension Development Host set up.
+To load and test the extension locally:
 
-## File Support
+1.  Clone this repository to your system:
+    ```bash
+    git clone https://github.com/watashi-00/spm-vscode.git
+    ```
+2.  Create a link to the extensions folder of your editor (e.g. VS Code or Code - OSS):
+    ```bash
+    ln -s /path/to/vscode-theme-manifest-intellisense ~/.vscode-oss/extensions/vscode-theme-manifest-intellisense
+    ```
+3.  Restart your editor or reload the window to activate.
 
-Applies to:
+---
 
-* `**/websites/*/*/manifest.json`
+## Workspace Integration
 
-## Schema
+To update the JSON schema registry representing React components props:
+```bash
+# Analyze TS interfaces and rebuild manifest schema
+npm run build-registry
+```
+The schema is exported to `schemas/theme-manifest-schema.json` and automatically consumed by VS Code for validation.
 
-The schema validates fields such as `theme`, `components`, `reconstructs`, `propsMap`, `children`, and `preserve`.
+---
+
+## Suggested GitHub Topic Tags
+`vscode-extension` | `intellisense` | `syntax-highlighting` | `veneer-dsl` | `linter-diagnostics` | `json-schema-generator`
+
+---
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](file:///home/watashi/Projects/vscode-theme-manifest-intellisense/LICENSE) file for details.
