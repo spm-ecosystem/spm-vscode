@@ -135,36 +135,107 @@ export function activate(context) {
                         });
                 }
 
-                // 2. Suggest properties inside blocks
-                // We find the closest component by scanning backwards for -> ComponentName
-                const blockMatches = [...textBefore.matchAll(/(?:reconstruct|selector)\s+"[^"]+"\s*->\s*([a-zA-Z0-9_]+)\s*\{/g)];
-                if (blockMatches.length > 0) {
-                    const lastMatch = blockMatches[blockMatches.length - 1];
-                    const compName = lastMatch[1];
-                    const propsTypeName = `${compName}Props`;
-                    const propDefinition = schemaData.definitions[propsTypeName];
+                // 2. Trace nesting level and current context
+                const lines = textBefore.split('\n');
+                let braceLevel = 0;
+                let activeComponent = null;
+                let activeChild = null;
 
+                for (const line of lines) {
+                    const openBraces = (line.match(/\{/g) || []).length;
+                    const closeBraces = (line.match(/\}/g) || []).length;
+                    
+                    const reconMatch = line.match(/(?:reconstruct|selector)\s+"[^"]+"\s*->\s*([a-zA-Z0-9_]+)/);
+                    if (reconMatch) {
+                        activeComponent = reconMatch[1];
+                        activeChild = null;
+                    }
+
+                    const childMatch = line.match(/child\s+([a-zA-Z0-9_]+)/);
+                    if (childMatch) {
+                        activeChild = childMatch[1];
+                    }
+
+                    braceLevel += openBraces - closeBraces;
+                    if (braceLevel === 0) {
+                        activeComponent = null;
+                        activeChild = null;
+                    } else if (braceLevel === 1) {
+                        activeChild = null;
+                    }
+                }
+
+                // Suggestions helper
+                const makePropSuggestions = (properties) => {
+                    const suggestions = [];
+                    const isBinding = lineText.trim().startsWith('bind');
+
+                    for (const [propName, propDetails] of Object.entries(properties)) {
+                        let desc = propDetails.description || '';
+                        if (propDetails.type) {
+                            desc = `Type: \`${propDetails.type}\`\n\n` + desc;
+                        }
+
+                        if (isBinding) {
+                            // Only suggest property names since "bind" is already typed
+                            const bindItem = new vscode.CompletionItem(propName, vscode.CompletionItemKind.Variable);
+                            bindItem.insertText = `${propName}: `;
+                            bindItem.documentation = new vscode.MarkdownString(`Dynamic binding for ${propName}:\n\n${desc}`);
+                            bindItem.detail = `Dynamic Binding: ${propName}`;
+                            suggestions.push(bindItem);
+                        } else {
+                            // Suggest both options
+                            const staticItem = new vscode.CompletionItem(propName, vscode.CompletionItemKind.Property);
+                            staticItem.insertText = `${propName}: `;
+                            staticItem.documentation = new vscode.MarkdownString(desc);
+                            staticItem.detail = `Static Prop: ${propName}`;
+                            suggestions.push(staticItem);
+
+                            const bindItem = new vscode.CompletionItem(`bind ${propName}`, vscode.CompletionItemKind.Variable);
+                            bindItem.insertText = `bind ${propName}: `;
+                            bindItem.documentation = new vscode.MarkdownString(`Dynamic CSS / Selector Binding:\n\n${desc}`);
+                            bindItem.detail = `Dynamic Binding: ${propName}`;
+                            suggestions.push(bindItem);
+                        }
+                    }
+                    return suggestions;
+                };
+
+                // 3. inside reconstruct top level
+                if (braceLevel === 1 && activeComponent) {
+                    const propsTypeName = `${activeComponent}Props`;
+                    const propDefinition = schemaData.definitions[propsTypeName];
                     if (propDefinition && propDefinition.properties) {
-                        // Check if we are inside braces
-                        const bracesOpen = (textBefore.split('{').length - 1);
-                        const bracesClose = (textBefore.split('}').length - 1);
-                        if (bracesOpen > bracesClose) {
-                            return Object.entries(propDefinition.properties).map(([propName, propDetails]) => {
-                                const item = new vscode.CompletionItem(propName, vscode.CompletionItemKind.Property);
-                                item.insertText = `${propName}: `;
-                                
-                                let desc = propDetails.description || '';
-                                if (propDetails.type) {
-                                    desc = `Type: \`${propDetails.type}\`\n\n` + desc;
+                        return makePropSuggestions(propDefinition.properties);
+                    }
+                }
+
+                // 4. inside child block
+                if (braceLevel === 2 && activeComponent && activeChild) {
+                    const propsTypeName = `${activeComponent}Props`;
+                    const propDefinition = schemaData.definitions[propsTypeName];
+                    if (propDefinition && propDefinition.properties) {
+                        const childField = propDefinition.properties[activeChild];
+                        if (childField) {
+                            let refType = '';
+                            if (childField.$ref) {
+                                refType = childField.$ref;
+                            } else if (childField.type === 'array' && childField.items && childField.items.$ref) {
+                                refType = childField.items.$ref;
+                            }
+
+                            if (refType) {
+                                const typeName = refType.split('/').pop();
+                                const childDefinition = schemaData.definitions[typeName];
+                                if (childDefinition && childDefinition.properties) {
+                                    return makePropSuggestions(childDefinition.properties);
                                 }
-                                item.documentation = new vscode.MarkdownString(desc);
-                                return item;
-                            });
+                            }
                         }
                     }
                 }
 
-                // 3. Keyword completion
+                // 5. Keyword completion
                 const keywords = [
                     'theme', 'variables', 'customStyles',
                     'class', 'extends', 'selector', 'action',
