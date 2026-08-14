@@ -46,13 +46,3 @@ npm run build-registry
 ```
 The schema is exported to `schemas/theme-manifest-schema.json` and automatically consumed by VS Code for validation.
 
----
-
-## Suggested GitHub Topic Tags
-`vscode-extension` | `intellisense` | `syntax-highlighting` | `veneer-dsl` | `linter-diagnostics` | `json-schema-generator`
-
----
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](file:///home/watashi/Projects/vscode-theme-manifest-intellisense/LICENSE) file for details.
