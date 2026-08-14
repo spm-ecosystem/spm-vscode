@@ -50,4 +50,4 @@ To load and test the extension locally:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](file:///home/watashi/Projects/vscode-theme-manifest-intellisense/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
