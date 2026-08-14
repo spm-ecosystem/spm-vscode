@@ -1,11 +1,11 @@
-# vscode-theme-manifest-intellisense
+# spm-vscode
 
-The official VS Code developer tools extension for the Site Package Manager (SPM) layout ecosystem.
+The official VS Code developer tools extension for the Site Package Manager (SPM) layout development ecosystem.
 
 ---
 
-## Short Description
-An intelligent editor extension providing rich syntax highlighting, contextual autocomplete, and real-time compile linter diagnostics for Veneer Spec (`.vnr`) theme layout configuration files.
+## What is spm-vscode?
+`spm-vscode` is an editor extension designed to streamline the developer experience when creating layout and theme configurations for the Site Package Manager (SPM). It provides syntax highlighting, auto-completion, and real-time compile linter diagnostics for the Veneer Spec (`.vnr`) domain-specific language.
 
 ---
 
@@ -18,6 +18,17 @@ An intelligent editor extension providing rich syntax highlighting, contextual a
     *   Child properties recommendation (e.g. inside `child items` block, it suggests item attributes like `imageUrl` and `linkUrl`).
 3.  **Real-Time Compile Diagnostics (Linter)**:
     Saves document modifications in a background cache and executes `spm compile` silently. Compilation errors or Resolver failures are mapped back and highlighted as red squiggly error underlines on the exact line of the file.
+
+---
+
+## Workspace Integration
+
+To update the JSON schema registry representing React components props:
+```bash
+# Analyze TS interfaces and rebuild manifest schema
+npm run build-registry
+```
+The schema is exported to `schemas/theme-manifest-schema.json` and automatically consumed by VS Code for validation.
 
 ---
 
@@ -37,12 +48,6 @@ To load and test the extension locally:
 
 ---
 
-## Workspace Integration
+## License
 
-To update the JSON schema registry representing React components props:
-```bash
-# Analyze TS interfaces and rebuild manifest schema
-npm run build-registry
-```
-The schema is exported to `schemas/theme-manifest-schema.json` and automatically consumed by VS Code for validation.
-
+This project is licensed under the MIT License - see the [LICENSE](file:///home/watashi/Projects/vscode-theme-manifest-intellisense/LICENSE) file for details.
