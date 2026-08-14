@@ -38,7 +38,7 @@ To load and test the extension locally:
 
 1.  Clone this repository to your system:
     ```bash
-    git clone https://github.com/watashi-00/spm-vscode.git
+    git clone https://github.com/spm-ecosystem/spm-vscode.git
     ```
 2.  Create a link to the extensions folder of your editor (e.g. VS Code or Code - OSS):
     ```bash
