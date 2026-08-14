@@ -17786,6 +17786,41 @@
         "queryParamName": {
           "type": "string"
         },
+        "method": {
+          "type": "string",
+          "enum": [
+            "get",
+            "post",
+            "GET",
+            "POST"
+          ]
+        },
+        "hiddenFields": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "value"
+                ],
+                "additionalProperties": false
+              }
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
         "className": {
           "type": "string"
         },
