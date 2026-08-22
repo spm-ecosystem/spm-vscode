@@ -24,12 +24,27 @@ function loadSchema() {
 // Diagnostics provider running spm compile in background
 const diagnosticCollection = vscode.languages.createDiagnosticCollection('veneer');
 
+function getSpmExecutablePath() {
+    const configPath = vscode.workspace.getConfiguration('spm').get('executablePath');
+    if (configPath && typeof configPath === 'string' && configPath.trim() !== '') {
+        return configPath.trim();
+    }
+    if (process.env.SPM_CLI_PATH && process.env.SPM_CLI_PATH.trim() !== '') {
+        return process.env.SPM_CLI_PATH.trim();
+    }
+    const devPath = '/home/watashi/Projects/spm-cli/spm';
+    if (fs.existsSync(devPath)) {
+        return devPath;
+    }
+    return 'spm';
+}
+
 function updateDiagnostics(document) {
     if (document.languageId !== 'veneer') return;
 
     // Command path to spm
-    const spmPath = '/home/watashi/Projects/spm-cli/spm';
-    if (!fs.existsSync(spmPath)) {
+    const spmPath = getSpmExecutablePath();
+    if (path.isAbsolute(spmPath) && !fs.existsSync(spmPath)) {
         return;
     }
 

@@ -14,6 +14,16 @@
   ],
   "categories": ["Other"],
   "contributes": {
+    "configuration": {
+      "title": "SPM",
+      "properties": {
+        "spm.executablePath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the spm-cli binary (e.g. /usr/local/bin/spm). If empty, SPM_CLI_PATH env var or 'spm' in PATH is used."
+        }
+      }
+    },
     "languages": [
       {
         "id": "veneer",
