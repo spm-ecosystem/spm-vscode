@@ -32,9 +32,18 @@ function getSpmExecutablePath() {
     if (process.env.SPM_CLI_PATH && process.env.SPM_CLI_PATH.trim() !== '') {
         return process.env.SPM_CLI_PATH.trim();
     }
-    const devPath = '/home/watashi/Projects/spm-cli/spm';
-    if (fs.existsSync(devPath)) {
-        return devPath;
+    
+    // Check relative sibling build directory candidates
+    const siblingCandidates = [
+        path.resolve(__dirname, '../../../spm-cli/build/spm'),
+        path.resolve(__dirname, '../../../spm-cli/spm'),
+        path.resolve(__dirname, '../../spm-cli/build/spm'),
+        path.resolve(__dirname, '../../spm-cli/spm')
+    ];
+    for (const cand of siblingCandidates) {
+        if (fs.existsSync(cand)) {
+            return cand;
+        }
     }
     return 'spm';
 }
@@ -58,7 +67,7 @@ function updateDiagnostics(document) {
         return;
     }
 
-    cp.exec(`"${spmPath}" compile "${tempFile}" -o "${tempOut}"`, (err, stdout, stderr) => {
+    cp.execFile(spmPath, ['compile', tempFile, '-o', tempOut], (err, stdout, stderr) => {
         // Clean up temp files
         try {
             if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
@@ -66,7 +75,7 @@ function updateDiagnostics(document) {
         } catch (e) {}
 
         const diagnostics = [];
-        const lines = (stdout + '\n' + stderr).split('\n');
+        const lines = ((stdout || '') + '\n' + (stderr || '')).split('\n');
 
         for (const line of lines) {
             if (line.includes('[Parser Error]')) {
@@ -82,7 +91,6 @@ function updateDiagnostics(document) {
                 }
             } else if (line.includes('[Resolver Error]')) {
                 const message = line.replace(/.*\[Resolver Error\]\s*/, '');
-                // Highlight first line since resolver errors are semantic
                 const range = new vscode.Range(0, 0, 0, document.lineAt(0).text.length);
                 diagnostics.push(new vscode.Diagnostic(range, `[Resolver Error] ${message}`, vscode.DiagnosticSeverity.Error));
             }
