@@ -42,7 +42,7 @@ To load and test the extension locally:
     ```
 2.  Create a link to the extensions folder of your editor (e.g. VS Code or Code - OSS):
     ```bash
-    ln -s /path/to/vscode-theme-manifest-intellisense ~/.vscode-oss/extensions/vscode-theme-manifest-intellisense
+    ln -s /path/to/spm-vscode ~/.vscode/extensions/spm-vscode
     ```
 3.  Restart your editor or reload the window to activate.
 
