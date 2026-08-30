@@ -18436,6 +18436,76 @@
       ],
       "additionalProperties": false
     },
+    "UiTabsProps": {
+      "type": "object",
+      "properties": {
+        "tabs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UiTabItem"
+          }
+        },
+        "activeParamName": {
+          "type": "string"
+        },
+        "variant": {
+          "type": "string",
+          "enum": [
+            "underline",
+            "pill",
+            "boxed"
+          ]
+        },
+        "orientation": {
+          "type": "string",
+          "enum": [
+            "horizontal",
+            "vertical"
+          ]
+        },
+        "className": {
+          "type": "string"
+        },
+        "style": {
+          "$ref": "#/definitions/React.CSSProperties"
+        }
+      },
+      "additionalProperties": false
+    },
+    "UiTabItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "href": {
+          "type": "string"
+        },
+        "badge": {
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "contentHtml": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "disabled": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "label"
+      ],
+      "additionalProperties": false
+    },
     "UiTagBadgeProps": {
       "type": "object",
       "properties": {
@@ -18895,6 +18965,22 @@
             "if": {
               "properties": {
                 "name": {
+                  "const": "UiTabs"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "props": {
+                  "$ref": "#/definitions/UiTabsProps"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "name": {
                   "const": "UiTagBadge"
                 }
               }
@@ -19222,6 +19308,22 @@
               "properties": {
                 "props": {
                   "$ref": "#/definitions/UiTableListPageProps"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "layoutComponent": {
+                  "const": "UiTabs"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "props": {
+                  "$ref": "#/definitions/UiTabsProps"
                 }
               }
             }
