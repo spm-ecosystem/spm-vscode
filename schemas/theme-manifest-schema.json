@@ -21,6 +21,9 @@
             "$ref": "#/definitions/PageLink"
           }
         },
+        "showThumbnails": {
+          "type": "boolean"
+        },
         "height": {
           "type": "string"
         },
@@ -72,12 +75,7 @@
       },
       "required": [
         "id",
-        "thumbnailUrl",
-        "postUrl",
-        "postDate",
-        "postUser",
-        "postRating",
-        "postScore"
+        "postUrl"
       ],
       "additionalProperties": false
     },
@@ -115,11 +113,12 @@
         },
         "body": {
           "type": "string"
+        },
+        "isHtml": {
+          "type": "boolean"
         }
       },
       "required": [
-        "author",
-        "date",
         "body"
       ],
       "additionalProperties": false
@@ -17292,6 +17291,72 @@
       ],
       "additionalProperties": false
     },
+    "UiDevDiagnosticPanelProps": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DevDiagnosticItem"
+          }
+        },
+        "onClear": {
+          "$comment": "() => void"
+        },
+        "initialExpanded": {
+          "type": "boolean"
+        },
+        "className": {
+          "type": "string"
+        },
+        "style": {
+          "$ref": "#/definitions/React.CSSProperties"
+        }
+      },
+      "additionalProperties": false
+    },
+    "DevDiagnosticItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "warning",
+            "error"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "number"
+        },
+        "occurrenceCount": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "severity",
+        "title",
+        "message",
+        "timestamp"
+      ],
+      "additionalProperties": false
+    },
     "UiFormContainerProps": {
       "type": "object",
       "properties": {
@@ -17681,6 +17746,13 @@
             "cover"
           ]
         },
+        "imageFit": {
+          "type": "string",
+          "enum": [
+            "contain",
+            "cover"
+          ]
+        },
         "background": {
           "type": "string"
         },
@@ -17689,6 +17761,31 @@
         },
         "style": {
           "$ref": "#/definitions/React.CSSProperties"
+        },
+        "enableZoom": {
+          "type": "boolean"
+        },
+        "onFitChange": {
+          "$comment": "(fit: 'contain' | 'cover') => void",
+          "type": "object",
+          "properties": {
+            "namedArgs": {
+              "type": "object",
+              "properties": {
+                "fit": {
+                  "type": "string",
+                  "enum": [
+                    "contain",
+                    "cover"
+                  ]
+                }
+              },
+              "required": [
+                "fit"
+              ],
+              "additionalProperties": false
+            }
+          }
         }
       },
       "additionalProperties": false
@@ -18741,6 +18838,22 @@
             "if": {
               "properties": {
                 "name": {
+                  "const": "UiDevDiagnosticPanel"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "props": {
+                  "$ref": "#/definitions/UiDevDiagnosticPanelProps"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "name": {
                   "const": "UiFormContainer"
                 }
               }
@@ -19084,6 +19197,22 @@
               "properties": {
                 "props": {
                   "$ref": "#/definitions/UiDashboardPageProps"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "layoutComponent": {
+                  "const": "UiDevDiagnosticPanel"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "props": {
+                  "$ref": "#/definitions/UiDevDiagnosticPanelProps"
                 }
               }
             }
