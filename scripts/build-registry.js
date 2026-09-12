@@ -126,7 +126,11 @@ try {
                     description: { type: "string" },
                     tags: { type: "array", items: { type: "string" } },
                     cssVariables: { type: "object", additionalProperties: { type: "string" } },
-                    customStyles: { type: "string" },
+                    customStyles: {
+                        type: "string",
+                        description: "Deprecated in favor of content.css",
+                        deprecated: true
+                    },
                     noticeSelector: { type: "string" }
                 },
                 additionalProperties: false

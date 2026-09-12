@@ -18834,7 +18834,9 @@
           }
         },
         "customStyles": {
-          "type": "string"
+          "type": "string",
+          "description": "Deprecated in favor of content.css",
+          "deprecated": true
         },
         "noticeSelector": {
           "type": "string"
