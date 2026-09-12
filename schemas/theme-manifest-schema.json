@@ -17387,6 +17387,34 @@
             "type": "string"
           }
         },
+        "tabs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FormTab"
+          }
+        },
+        "activeTabId": {
+          "type": "string"
+        },
+        "forgotPasswordUrl": {
+          "type": "string"
+        },
+        "secondaryLink": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "label",
+            "url"
+          ],
+          "additionalProperties": false
+        },
         "children": {
           "anyOf": [
             {
@@ -17473,6 +17501,49 @@
         },
         "required": {
           "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "label"
+      ],
+      "additionalProperties": false
+    },
+    "FormTab": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "subTitle": {
+          "type": "string"
+        },
+        "submitLabel": {
+          "type": "string"
+        },
+        "actionUrl": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FormField"
+          }
+        },
+        "hiddenInputs": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       },
       "required": [
@@ -17956,6 +18027,9 @@
           "items": {
             "$ref": "#/definitions/NavLink"
           }
+        },
+        "extraHtml": {
+          "type": "string"
         },
         "layout": {
           "type": "string",
